@@ -14,6 +14,8 @@ Before you get started, you need to install
 
 [Docker Desktop](https://www.docker.com/products/docker-desktop).
 
+[Composer](https://getcomposer.org/download/).
+
 ## Initial Setup
 
 Clone the project from github by running the following command
