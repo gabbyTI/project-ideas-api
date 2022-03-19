@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        "user_id",
+        "name",
+        "slug",
+        "summary",
+        "description",
+    ];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,13 @@ Route::group(['prefix' => 'v1'], function () {
     // Route group for authenticated users only
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('logout', [AuthController::class, 'logout']);
+
+        //projects
+        Route::get('projects', [ProjectController::class, 'getProjects']);
+        Route::get('project/{project}', [ProjectController::class, 'getProject']);
+        Route::post('projects', [ProjectController::class, 'createProject']);
+        Route::put('projects/{project}', [ProjectController::class, 'updateProject']);
+        Route::delete('projects/{project}', [ProjectController::class, 'deleteProject']);
     });
 
     // Route group for guest users only
