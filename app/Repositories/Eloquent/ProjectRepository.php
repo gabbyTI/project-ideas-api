@@ -12,4 +12,9 @@ class ProjectRepository extends BaseRepository implements IProject
         return Project::class;
     }
 
+    public function addComment($project, array $data){
+        $comment = $project->comments()->create($data);
+        return $comment;
+    }
+
 }

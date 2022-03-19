@@ -71,7 +71,7 @@ class ProjectController extends Controller
     }
 
     public function deleteProject(Request $request, Project $project){
-        $this->authorize("deleten", $project);
+        $this->authorize("delete", $project);
 
         $this->projects->delete($project->id);
 
