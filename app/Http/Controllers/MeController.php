@@ -14,8 +14,8 @@ class MeController extends Controller
 {
     public function getMe(Request $request)
     {
-        if (auth('sanctum')->check()) {
-            return ApiResponder::meEndpointResponse(new UserResource(auth('sanctum')->user()));
+        if (auth()->check()) {
+            return ApiResponder::meEndpointResponse(new UserResource(auth()->user()));
         }
 
         return ApiResponder::meEndpointResponse(null);

@@ -13,17 +13,66 @@ class ProjectController extends Controller
 
     protected $projects;
 
-    public function __construct(IProject $projects)
+    public function __construct(IProject $projects, Request $request)
     {
-        return $this->projects = $projects;
+        $request->headers->set('Accept', 'application/json');
+		$request->headers->set('Content-Type', 'application/json');
+        $this->projects = $projects;
+
     }
 
+    /**
+     * @OA\Get(
+     *      path="/api/v1/projects",
+     *      operationId="getProjects",
+     *      tags={"Projects"},
+     *      summary="Get list of projects",
+     *      description="Returns list of projects",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *     )
+     */
     public function getProjects(){
         $projects = $this->projects->all();
 
         return ApiResponder::successResponse("List of projects", ProjectResource::collection($projects));
     }
 
+    /**
+     * @OA\Get(
+     * path="/api/v1/projects/{project}",
+     * summary="Returns a project",
+     * description="Gets a project idea by id",
+     * operationId="getProject",
+     * tags={"Projects"},
+     * security={ {"bearer_token": {} }},
+     * @OA\Parameter(
+     *    description="ID of project",
+     *    in="path",
+     *    name="project",
+     *    required=true,
+     *    example="1",
+     *    @OA\Schema(
+     *       type="integer",
+     *       format="int64"
+     *    )
+     * ),
+     * @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     * )
+     */
     public function getProject(Project $project){
         return ApiResponder::successResponse("Successful", new ProjectResource($project));
     }

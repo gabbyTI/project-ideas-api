@@ -27,7 +27,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('me', [MeController::class, 'getMe']);
     
     // Route group for authenticated users only
-    Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::group(['middleware' => ['auth']], function () {
         Route::post('logout', [AuthController::class, 'logout']);
         
         //projects
@@ -44,8 +44,9 @@ Route::group(['prefix' => 'v1'], function () {
     // Route group for guest users only
     Route::group(['middleware' => ['guest:sanctum']], function () {
         Route::post('register', [AuthController::class, 'register']);
-        Route::post('login', [AuthController::class, 'login']);
+        Route::post('login', [AuthController::class, 'login'])->name('login');
         
         Route::get('projects', [ProjectController::class, 'getProjects']);
+
     });
 });
