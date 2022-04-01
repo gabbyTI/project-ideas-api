@@ -26,7 +26,12 @@ Route::group(['prefix' => 'v1'], function () {
     // PUBLIC ROUTES
     Route::get('me', [MeController::class, 'getMe']);
     
-    // Route group for authenticated users only
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login'])->name('login');
+    
+    Route::get('projects', [ProjectController::class, 'getProjects']);
+
+    // AUTHENTICATED ROUTES
     Route::group(['middleware' => ['auth']], function () {
         Route::post('logout', [AuthController::class, 'logout']);
         
@@ -36,17 +41,13 @@ Route::group(['prefix' => 'v1'], function () {
         Route::put('projects/{project}', [ProjectController::class, 'updateProject']);
         Route::delete('projects/{project}', [ProjectController::class, 'deleteProject']);
         
+        //Comments 
         Route::post('projects/{project}/comments', [CommentController::class, 'store']);
         Route::delete('comments/{commentId}', [CommentController::class, 'delete']);
         
-    });
-    
-    // Route group for guest users only
-    Route::group(['middleware' => ['guest:sanctum']], function () {
-        Route::post('register', [AuthController::class, 'register']);
-        Route::post('login', [AuthController::class, 'login'])->name('login');
-        
-        Route::get('projects', [ProjectController::class, 'getProjects']);
+        //Likes
+        Route::post('projects/{project}/like', [ProjectController::class, 'like']);
+        Route::get('projects/{project}/liked', [ProjectController::class, 'checkIfUserHasLiked']);
 
     });
 });

@@ -17,4 +17,20 @@ class ProjectRepository extends BaseRepository implements IProject
         return $comment;
     }
 
+    public function like($projectId){
+        $project = $this->model->findOrFail($projectId);
+
+        if($project->isLikedByUser(auth()->id())){
+            $project->unlike();
+        }else{
+            $project->like();
+        }
+    }
+
+    public function isLikedByUser($projectId){
+        $project = $this->model->findOrFail($projectId);
+
+        return $project->isLikedByUser(auth()->id());
+    }
+
 }

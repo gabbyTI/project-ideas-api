@@ -19,6 +19,7 @@ class ProjectResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'summary' => $this->summary,
+            'likeCount' => $this->likes()->count(),
             'description' => $this->description,
             "created_at_dates" => [
                 "created_at_human" => $this->created_at->diffForHumans(),

@@ -42,7 +42,7 @@ class ProjectController extends Controller
      *      )
      *     )
      */
-    public function getProjects(){
+    public function getProjects(Request $request){
         $projects = $this->projects->all();
 
         return ApiResponder::successResponse("List of projects", ProjectResource::collection($projects));
@@ -117,6 +117,19 @@ class ProjectController extends Controller
 
         // return success response
         return ApiResponder::successResponse("Created project idea successfully", new ProjectResource($project),201);
+    }
+
+    public function like(Project $project){
+        $this->projects->like($project->id);
+
+        return ApiResponder::successResponse("Liked or unliked project");
+
+    }
+
+    public function checkIfUserHasLiked(Project $project){
+        $isLiked = $this->projects->isLikedByUser($project->id);
+        $message = $isLiked ? "true" : "false";
+        return ApiResponder::successResponse($message);
     }
 
     public function deleteProject(Request $request, Project $project){
